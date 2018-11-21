@@ -1,0 +1,17 @@
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\domain\Result.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\domain\UserBean.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\handle\ExceptionHandle.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\properties\GirlProperties.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\exception\GirlException.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\aspect\HttpAspect.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\utils\ResultUtil.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\controller\UserController.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\controller\HelloController.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\domain\Girl.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\repository\GirlRepository.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\ApolloApplication.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\repository\UserRepository.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\controller\GirlContorller.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\service\GirlService.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\enums\ResultEnum.java
+C:\AllVersionCherry\apollo\src\main\java\com\apecoder\apollo\utils\TextUtils.java

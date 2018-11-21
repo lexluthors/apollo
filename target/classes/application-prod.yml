@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://118.190.202.223:3306/dbgirl2?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 841114Waff!_
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8080
