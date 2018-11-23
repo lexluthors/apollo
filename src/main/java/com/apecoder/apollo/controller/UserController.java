@@ -50,4 +50,5 @@ public class UserController {
         }
         return ResultUtil.error(ResultUtil.SUCCESS_CODE,"未找到该用户");
     }
+
 }

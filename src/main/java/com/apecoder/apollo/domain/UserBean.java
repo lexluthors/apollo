@@ -1,5 +1,6 @@
 package com.apecoder.apollo.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.annotation.CreatedDate;
@@ -28,9 +29,11 @@ public class UserBean {
     private String nick_name;
     private String hobby;
     @CreatedDate
+    @JSONField(format = "yyyy-MM-dd hh:mm:ss")
     private Date date;
 
     @LastModifiedDate
+    @JSONField(format = "yyyy-MM-dd hh:mm:ss")
     private Date update_date;
 
     @NotNull(message = "密码必传")
