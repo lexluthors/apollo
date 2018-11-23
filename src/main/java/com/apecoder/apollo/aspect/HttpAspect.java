@@ -20,7 +20,7 @@ public class HttpAspect {
 
     private final static Logger logger = LoggerFactory.getLogger(HttpAspect.class);
 
-        @Pointcut("execution(public * com.apecoder.apollo.controller.GirlContorller.*(..))")
+        @Pointcut("execution(public * com.apecoder.apollo.controller..*.*(..))")
         public void log(){
         }
 
@@ -46,6 +46,6 @@ public class HttpAspect {
 
     @AfterReturning(returning = "object",pointcut = "log()")
     public void doAfterReturning(Object object){
-//        logger.info("response={}",object);
+        logger.info("response={}",object);
     }
 }

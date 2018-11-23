@@ -1,9 +1,15 @@
 package com.apecoder.apollo.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.annotation.JSONType;
+
+import java.io.Serializable;
+
 /**
  * http请求返回的最外层对象
  */
-public class Result<T> {
+@JSONType(orders = {"code","msg","data"})
+public class Result<T> implements Serializable {
     private Integer code;
     private String msg;
     private T data;

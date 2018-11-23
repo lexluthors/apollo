@@ -24,16 +24,14 @@ public class UserController {
     //新增一个用户
     @PostMapping(value = "/user/add")
     public Result<UserBean> userBeanAdd(@RequestParam("phone")  String phone, @RequestParam("password") String password){
-        logger.error("这他妈咋回事啊？走没有user/add1111");
         if(TextUtils.isEmpty(phone)||TextUtils.isEmpty(password)){
-            return ResultUtil.error(0,"手机号和密码不能为空");
+            return ResultUtil.error(ResultUtil.ERROR_CODE,"手机号和密码不能为空");
         }
         int size = userRepository.findUserBeanByPhone(phone).size();
         if(size>0){
             //已经注册了，请直接登录
-            return ResultUtil.error(1,"已经注册，直接登录");
+            return ResultUtil.error(ResultUtil.ERROR_CODE,"已经注册，直接登录");
         }
-        logger.error("这他妈咋回事啊？user/add");
         UserBean userBean =new UserBean();
         userBean.setPhone(phone);
         userBean.setPassword(password);
@@ -50,6 +48,6 @@ public class UserController {
             userBean.setName(name);
             return ResultUtil.success(userRepository.save(userBean));
         }
-        return ResultUtil.error(1,"未找到改用户");
+        return ResultUtil.error(ResultUtil.SUCCESS_CODE,"未找到该用户");
     }
 }
