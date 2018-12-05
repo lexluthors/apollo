@@ -5,23 +5,27 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class UserBean {
+public class UserBean implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
 
     private Integer age;
+    private Integer user_level = 1;//管理员是0；普通用户是1，后续会开通vip功能
     private double money;
     private float income;
-    private long time;
     private String cupSize;
     private String des;
 
@@ -29,17 +33,26 @@ public class UserBean {
     private String nick_name;
     private String hobby;
     @CreatedDate
-    @JSONField(format = "yyyy-MM-dd hh:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
     @LastModifiedDate
-    @JSONField(format = "yyyy-MM-dd hh:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date update_date;
 
     @NotNull(message = "密码必传")
     private String password;
     @NotNull(message = "手机号必传")
     private String phone;
+
+
+    public Integer getUser_level() {
+        return user_level;
+    }
+
+    public void setUser_level(Integer user_level) {
+        this.user_level = user_level;
+    }
 
     public Date getDate() {
         return date;
@@ -92,13 +105,6 @@ public class UserBean {
         this.income = income;
     }
 
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
 
     public Integer getId() {
         return id;

@@ -80,7 +80,7 @@ public class GirlContorller {
     @PostMapping(value = "/girls/add")
     public Result<Girl> girlAddObject(@Valid Girl girl, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return ResultUtil.error(1,bindingResult.getFieldError().getDefaultMessage()) ;
+            return ResultUtil.error(ResultUtil.ERROR_CODE,bindingResult.getFieldError().getDefaultMessage()) ;
         }
         girl.setCupSize(girl.getCupSize());
         girl.setAge(girl.getAge());

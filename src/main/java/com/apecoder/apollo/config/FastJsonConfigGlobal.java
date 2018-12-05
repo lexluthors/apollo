@@ -26,9 +26,8 @@ public class FastJsonConfigGlobal {
                 SerializerFeature.WriteMapNullValue,
                 SerializerFeature.SortField,
                 SerializerFeature.DisableCircularReferenceDetect,
-                SerializerFeature.WriteNullListAsEmpty,
-                SerializerFeature.DisableCheckSpecialChar);
-        fastJsonConfig.setDateFormat("yyyy-MM-dd hh:mm:ss");
+                SerializerFeature.WriteNullListAsEmpty);
+        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
         //处理中文乱码问题
         List<MediaType> fastMediaTypes = new ArrayList<>();
         fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);

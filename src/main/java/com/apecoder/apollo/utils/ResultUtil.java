@@ -1,6 +1,7 @@
 package com.apecoder.apollo.utils;
 
 
+import com.apecoder.apollo.domain.EmptyData;
 import com.apecoder.apollo.domain.Result;
 import com.apecoder.apollo.domain.ResultData;
 
@@ -38,7 +39,10 @@ public class ResultUtil {
         Result result = new Result();
         result.setCode(code);
         result.setMsg(msg);
-        result.setData(new ResultData());
+        result.setData(new EmptyData());
         return result;
+    }
+    public static Result error(String msg) {
+        return error(ERROR_CODE,msg);
     }
 }

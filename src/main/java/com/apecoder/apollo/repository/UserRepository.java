@@ -17,7 +17,8 @@ public interface UserRepository extends JpaRepository<UserBean,Integer> {
     public UserBean findUserBeanById(Integer id);
 
     //通过phone来查询
-    public List<UserBean> findUserBeanByPhone(String phone);
+    public UserBean findUserBeanByPhone(String phone);
+    public List<UserBean> findUserBeansByPhone(String phone);
 
 
 

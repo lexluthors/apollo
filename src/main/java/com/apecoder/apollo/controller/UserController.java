@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class UserController {
 
@@ -22,13 +24,13 @@ public class UserController {
 
 
     //新增一个用户
-    @PostMapping(value = "/user/add")
+    @PostMapping(value = "/user/register")
     public Result<UserBean> userBeanAdd(@RequestParam("phone")  String phone, @RequestParam("password") String password){
         if(TextUtils.isEmpty(phone)||TextUtils.isEmpty(password)){
             return ResultUtil.error(ResultUtil.ERROR_CODE,"手机号和密码不能为空");
         }
-        int size = userRepository.findUserBeanByPhone(phone).size();
-        if(size>0){
+        UserBean userBeans = userRepository.findUserBeanByPhone(phone);
+        if(null !=userBeans){
             //已经注册了，请直接登录
             return ResultUtil.error(ResultUtil.ERROR_CODE,"已经注册，直接登录");
         }
@@ -36,6 +38,29 @@ public class UserController {
         userBean.setPhone(phone);
         userBean.setPassword(password);
         return ResultUtil.success(userRepository.save(userBean));
+    }
+
+    /**
+     *
+     * @param phone
+     * @param password
+     * @return
+     */
+    @PostMapping(value = "/user/login")
+    public Result<UserBean> userBeanLogin(@RequestParam("phone")  String phone, @RequestParam("password") String password){
+        if(TextUtils.isEmpty(phone)||TextUtils.isEmpty(password)){
+            return ResultUtil.error(ResultUtil.ERROR_CODE,"手机号和密码不能为空");
+        }
+        UserBean userBeans = userRepository.findUserBeanByPhone(phone);
+        if(null !=userBeans){
+            //已经注册了，请直接登录
+            if(userBeans.getPassword().equals(password)){
+                //通过密码验证
+                return ResultUtil.success(userBeans);
+            }
+            return ResultUtil.error(ResultUtil.ERROR_CODE,"密码错误");
+        }
+        return ResultUtil.error(ResultUtil.ERROR_CODE,"未注册，请注册");
     }
 
     //更新一个用户
