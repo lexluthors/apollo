@@ -3,15 +3,22 @@ package com.apecoder.apollo.controller;
 import com.apecoder.apollo.domain.Result;
 import com.apecoder.apollo.domain.UserBean;
 import com.apecoder.apollo.repository.UserRepository;
+import com.apecoder.apollo.utils.EntityCopyUtil;
 import com.apecoder.apollo.utils.ResultUtil;
 import com.apecoder.apollo.utils.TextUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -64,16 +71,27 @@ public class UserController {
     }
 
     //更新一个用户
+    @ApiOperation(value = "更新用户资料",notes = "修改用户个人信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "age", value = "用户年龄", required = false, dataType = "int"),
+            @ApiImplicitParam(name = "des", value = "个人描述，签名", required = false, dataType = "string"),
+            @ApiImplicitParam(name = "nick_name", value = "昵称", required = false, dataType = "string"),
+            @ApiImplicitParam(name = "name", value = "姓名", required = false, dataType = "string"),
+            @ApiImplicitParam(name = "hobby", value = "爱好", required = false, dataType = "string"),
+            @ApiImplicitParam(name = "gender", value = "性别", required = false, dataType = "string")
+    })
     @PostMapping(value = "/user/update")
-    public Result<UserBean>  userBeanUpdate(@RequestParam("des")  String des, @RequestParam("id")  Integer id, @RequestParam("name") String name){
-        UserBean userBean = userRepository.findUserBeanById(id);
-        if(null!=userBean){
-            //已经注册了，请直接登录
-            userBean.setDes(des);
-            userBean.setName(name);
-            return ResultUtil.success(userRepository.save(userBean));
+    public Result<UserBean>  userBeanUpdate(@Valid UserBean userBean, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
-        return ResultUtil.error(ResultUtil.SUCCESS_CODE,"未找到该用户");
+        UserBean userBeanById = userRepository.findUserBeanById(userBean.getId());
+        if(null!=userBeanById){
+            EntityCopyUtil.beanCopyWithIngore(userBean,userBeanById,"password");
+            return ResultUtil.success(userRepository.save(userBeanById));
+        }
+        return ResultUtil.error("未找到该用户");
     }
 
 }

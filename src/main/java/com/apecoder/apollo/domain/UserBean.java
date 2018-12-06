@@ -26,6 +26,7 @@ public class UserBean implements Serializable {
     private Integer user_level = 1;//管理员是0；普通用户是1，后续会开通vip功能
     private double money;
     private float income;
+    @JSONField(serialize = false)
     private String cupSize;
     private String des;
 
@@ -40,11 +41,21 @@ public class UserBean implements Serializable {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date update_date;
 
+    @JSONField(serialize = false)
     @NotNull(message = "密码必传")
     private String password;
     @NotNull(message = "手机号必传")
     private String phone;
 
+    private String gender;
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public Integer getUser_level() {
         return user_level;

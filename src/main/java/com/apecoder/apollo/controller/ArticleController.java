@@ -91,7 +91,7 @@ public class ArticleController {
             @ApiImplicitParam(name = "title", value = "文章标题", required = true, dataType = "string"),
             @ApiImplicitParam(name = "des", value = "文章描述", required = false, dataType = "string"),
             @ApiImplicitParam(name = "tag", value = "文章标签", required = false, dataType = "string"),
-            @ApiImplicitParam(name = "contributor_id", value = "贡献者ID", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "contributor_id", value = "发布者ID", required = true, dataType = "int"),
             @ApiImplicitParam(name = "category", value = "文章分类", required = true, dataType = "int"),
             @ApiImplicitParam(name = "sencond_category", value = "文章子分类", required = false, dataType = "int"),
             @ApiImplicitParam(name = "link", value = "文章链接", required = true, dataType = "string"),

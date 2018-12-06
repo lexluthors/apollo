@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://118.190.202.223:3306/dbgirl2?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://118.190.202.223:3306/dbgirl2?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong
     username: root
     password: 841114Waff!_
 
