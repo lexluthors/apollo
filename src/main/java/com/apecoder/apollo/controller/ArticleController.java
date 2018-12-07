@@ -114,7 +114,7 @@ public class ArticleController {
     }
 
     @PostMapping(value = "/get/article_bylink")
-    public Result<ArticleBean> articleByLink(@RequestParam("article_link") String article_link) {
+    public Result<ArticleBean> articleByLink(@RequestParam("link") String article_link) {
         ArticleBean articleBean = articleRepository.findArticleBeanByLink(article_link);
         if(null!=articleBean){
             return ResultUtil.success(articleBean);

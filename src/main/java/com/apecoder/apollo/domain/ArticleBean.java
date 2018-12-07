@@ -48,9 +48,18 @@ public class ArticleBean implements Serializable {
     private String tag;//文章标签
 
     @NotNull(message="分类不能为空！")
-    private int category;//文章分类（Android、iOS、Java等）0，1,2,3
+    private int category;//文章分类（Android、iOS、Java等）0安卓，1 ios,2 java,3 PHP
 
     private int sencond_category;//文章二级分类(开源库0、资讯1、资料2等)
+    private int audit_status;//审核状态(审核中0、通过1、未通过2)
+
+    public int getAudit_status() {
+        return audit_status;
+    }
+
+    public void setAudit_status(int audit_status) {
+        this.audit_status = audit_status;
+    }
 
     public Integer getContributor_id() {
         return contributor_id;

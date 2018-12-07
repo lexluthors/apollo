@@ -34,12 +34,12 @@ public class UserController {
     @PostMapping(value = "/user/register")
     public Result<UserBean> userBeanAdd(@RequestParam("phone")  String phone, @RequestParam("password") String password){
         if(TextUtils.isEmpty(phone)||TextUtils.isEmpty(password)){
-            return ResultUtil.error(ResultUtil.ERROR_CODE,"手机号和密码不能为空");
+            return ResultUtil.error("手机号和密码不能为空");
         }
         UserBean userBeans = userRepository.findUserBeanByPhone(phone);
         if(null !=userBeans){
             //已经注册了，请直接登录
-            return ResultUtil.error(ResultUtil.ERROR_CODE,"已经注册，直接登录");
+            return ResultUtil.error("已经注册，直接登录");
         }
         UserBean userBean =new UserBean();
         userBean.setPhone(phone);
