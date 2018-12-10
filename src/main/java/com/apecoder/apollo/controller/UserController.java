@@ -3,6 +3,7 @@ package com.apecoder.apollo.controller;
 import com.apecoder.apollo.domain.Result;
 import com.apecoder.apollo.domain.UserBean;
 import com.apecoder.apollo.repository.UserRepository;
+import com.apecoder.apollo.service.impl.UserServiceImpl;
 import com.apecoder.apollo.utils.EntityCopyUtil;
 import com.apecoder.apollo.utils.ResultUtil;
 import com.apecoder.apollo.utils.TextUtils;
@@ -27,6 +28,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserServiceImpl userService;
+
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
 
@@ -42,6 +46,7 @@ public class UserController {
             return ResultUtil.error("已经注册，直接登录");
         }
         UserBean userBean =new UserBean();
+        userBean.setUserLevel(1);//默认是1，普通用户
         userBean.setPhone(phone);
         userBean.setPassword(password);
         return ResultUtil.success(userRepository.save(userBean));
@@ -94,4 +99,20 @@ public class UserController {
         return ResultUtil.error("未找到该用户");
     }
 
+    @ApiOperation(value = "根据nickname获取用户列表",notes = "获取用户列表")
+    @PostMapping(value = "/get_users_nickname")
+    public Result<List<UserBean>> getUsersByNickName(@RequestParam("nick_name")  String nick_name){
+        if(TextUtils.isEmpty(nick_name)){
+            return ResultUtil.error(ResultUtil.ERROR_CODE,"昵称不能为空");
+        }
+        List<UserBean> userBeans= userService.selectListByNickName(nick_name);
+        return ResultUtil.success(userBeans);
+    }
+
+    @ApiOperation(value = "根据user_level获取用户列表",notes = "获取用户列表")
+    @PostMapping(value = "/get_users_level")
+    public Result<List<UserBean>> getUsersByUserLevel(@RequestParam("user_level")  Integer user_level){
+        List<UserBean> userBeans= userService.selectListByUserLevel(user_level);
+        return ResultUtil.success(userBeans);
+    }
 }

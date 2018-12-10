@@ -23,23 +23,21 @@ public class UserBean implements Serializable {
     private Integer id;
 
     private Integer age;
-    private Integer user_level = 1;//管理员是0；普通用户是1，后续会开通vip功能
-    private double money;
-    private float income;
+    private Integer userLevel;//管理员是0；普通用户是1，后续会开通vip功能
+    private Double money;
+    private Float income;
     @JSONField(serialize = false)
     private String cupSize;
     private String des;
 
     private String name;
-    private String nick_name;
+    private String nickName;
     private String hobby;
     @CreatedDate
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
     @LastModifiedDate
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date update_date;
+    private Date updateDate;
 
     @JSONField(serialize = false)
     @NotNull(message = "密码必传")
@@ -57,12 +55,12 @@ public class UserBean implements Serializable {
         this.gender = gender;
     }
 
-    public Integer getUser_level() {
-        return user_level;
+    public Integer getUserLevel() {
+        return userLevel;
     }
 
-    public void setUser_level(Integer user_level) {
-        this.user_level = user_level;
+    public void setUserLevel(Integer userLevel) {
+        this.userLevel = userLevel;
     }
 
     public Date getDate() {
@@ -73,12 +71,12 @@ public class UserBean implements Serializable {
         this.date = date;
     }
 
-    public Date getUpdate_date() {
-        return update_date;
+    public Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setUpdate_date(Date update_date) {
-        this.update_date = update_date;
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public UserBean() {
@@ -92,30 +90,29 @@ public class UserBean implements Serializable {
         this.hobby = hobby;
     }
 
-    public String getNick_name() {
-        return nick_name;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNick_name(String nick_name) {
-        this.nick_name = nick_name;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
-    public double getMoney() {
+    public Double getMoney() {
         return money;
     }
 
-    public void setMoney(double money) {
+    public void setMoney(Double money) {
         this.money = money;
     }
 
-    public float getIncome() {
+    public Float getIncome() {
         return income;
     }
 
-    public void setIncome(float income) {
+    public void setIncome(Float income) {
         this.income = income;
     }
-
 
     public Integer getId() {
         return id;
@@ -173,16 +170,4 @@ public class UserBean implements Serializable {
         this.phone = phone;
     }
 
-    @Override
-    public String toString() {
-        return "UserBean{" +
-                "id=" + id +
-                ", age=" + age +
-                ", cupSize='" + cupSize + '\'' +
-                ", des='" + des + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
-    }
 }

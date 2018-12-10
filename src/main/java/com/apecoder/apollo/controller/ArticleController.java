@@ -104,7 +104,7 @@ public class ArticleController {
         }
         ArticleBean articleBean1 = articleRepository.findArticleBeanById(articleBean.getId());
         if(null!=articleBean1){
-            if(articleBean.getContributor_id() ==articleBean1.getContributor_id()){
+            if(articleBean.getContributorId() ==articleBean1.getContributorId()){
                 EntityCopyUtil.beanCopyWithIngore(articleBean, articleBean1, "contributor_id");
                 return ResultUtil.success(articleRepository.saveAndFlush(articleBean1));
             }

@@ -22,7 +22,7 @@ public class ArticleBean implements Serializable {
     @GeneratedValue
     private Integer id;
 
-    private Integer contributor_id;
+    private Integer contributorId;
 
     //描述
     private String des;
@@ -35,10 +35,10 @@ public class ArticleBean implements Serializable {
     //更新时间
     @LastModifiedDate
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date update_date;
+    private Date updateDate;
 
     //封面图
-    private String cover_image;
+    private String coverImage;
 
     @NotNull(message = "文章标题必传")
     private String title;
@@ -48,26 +48,12 @@ public class ArticleBean implements Serializable {
     private String tag;//文章标签
 
     @NotNull(message="分类不能为空！")
-    private int category;//文章分类（Android、iOS、Java等）0安卓，1 ios,2 java,3 PHP
+    private Integer category;//文章分类（Android、iOS、Java等）0安卓，1 ios,2 java,3 PHP
 
-    private int sencond_category;//文章二级分类(开源库0、资讯1、资料2等)
-    private int audit_status;//审核状态(审核中0、通过1、未通过2)
+    private Integer sencondCategory;//文章二级分类(开源库0、资讯1、资料2等)
+    private Integer audittSatus;//审核状态(审核中0、通过1、未通过2)
 
-    public int getAudit_status() {
-        return audit_status;
-    }
 
-    public void setAudit_status(int audit_status) {
-        this.audit_status = audit_status;
-    }
-
-    public Integer getContributor_id() {
-        return contributor_id;
-    }
-
-    public void setContributor_id(Integer contributor_id) {
-        this.contributor_id = contributor_id;
-    }
 
     public int getCategory() {
         return category;
@@ -101,21 +87,6 @@ public class ArticleBean implements Serializable {
         this.date = date;
     }
 
-    public Date getUpdate_date() {
-        return update_date;
-    }
-
-    public void setUpdate_date(Date update_date) {
-        this.update_date = update_date;
-    }
-
-    public String getCover_image() {
-        return cover_image;
-    }
-
-    public void setCover_image(String cover_image) {
-        this.cover_image = cover_image;
-    }
 
     public String getTitle() {
         return title;
@@ -141,12 +112,43 @@ public class ArticleBean implements Serializable {
         this.tag = tag;
     }
 
-
-    public int getSencond_category() {
-        return sencond_category;
+    public Integer getContributorId() {
+        return contributorId;
     }
 
-    public void setSencond_category(int sencond_category) {
-        this.sencond_category = sencond_category;
+    public void setContributorId(Integer contributorId) {
+        this.contributorId = contributorId;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(String coverImage) {
+        this.coverImage = coverImage;
+    }
+
+    public int getSencondCategory() {
+        return sencondCategory;
+    }
+
+    public void setSencondCategory(int sencondCategory) {
+        this.sencondCategory = sencondCategory;
+    }
+
+    public int getAudittSatus() {
+        return audittSatus;
+    }
+
+    public void setAudittSatus(int audittSatus) {
+        this.audittSatus = audittSatus;
     }
 }

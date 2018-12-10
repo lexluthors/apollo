@@ -12,3 +12,19 @@ spring:
 
 server:
   port: 80
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+      column-like: true
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+
+
+
