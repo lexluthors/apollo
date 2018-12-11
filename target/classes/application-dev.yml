@@ -11,12 +11,12 @@ spring:
     show-sql: true
 
 server:
-  port: 80
+  port: 8081
 
 mybatis-plus:
   global-config:
     db-config:
-      id-type: auto
+      id-type: id_worker
       column-like: true
       logic-delete-value: 0
       logic-not-delete-value: 1

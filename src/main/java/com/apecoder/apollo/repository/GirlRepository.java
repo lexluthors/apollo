@@ -1,11 +1,11 @@
 package com.apecoder.apollo.repository;
 
 import com.apecoder.apollo.domain.Girl;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.stream.BaseStream;
 
-public interface GirlRepository extends JpaRepository<Girl,Integer> {
+public interface GirlRepository extends BaseStream  {
 
     //通过年龄来查询
     public List<Girl> findByAge(Integer age);

@@ -1,13 +1,10 @@
 package com.apecoder.apollo.domain;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
-import net.bytebuddy.implementation.bind.annotation.Default;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -15,11 +12,12 @@ import java.util.Date;
 
 
 @Data
-public class ArticleBean implements Serializable {
+public class ArticleEntity extends BaseEntity {
     //文章id
-    @TableId(value="id",type= IdType.AUTO)
-    private Integer id;
+//    @TableId(value="id",type= IdType.AUTO)
+//    private Integer id;
 
+    @NotNull(message = "文章发布者id必填")
     private Integer contributorId;
 
     //描述

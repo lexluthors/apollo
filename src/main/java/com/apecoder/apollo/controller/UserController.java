@@ -7,6 +7,7 @@ import com.apecoder.apollo.service.impl.UserServiceImpl;
 import com.apecoder.apollo.utils.EntityCopyUtil;
 import com.apecoder.apollo.utils.ResultUtil;
 import com.apecoder.apollo.utils.TextUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,9 +27,6 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserServiceImpl userService;
 
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -40,16 +38,19 @@ public class UserController {
         if(TextUtils.isEmpty(phone)||TextUtils.isEmpty(password)){
             return ResultUtil.error("手机号和密码不能为空");
         }
-        UserBean userBeans = userRepository.findUserBeanByPhone(phone);
-        if(null !=userBeans){
+        UserBean userBean = userService.getOne(Wrappers.query(new UserBean()).eq(UserBean::getPhone,phone));
+        if(null !=userBean){
             //已经注册了，请直接登录
             return ResultUtil.error("已经注册，直接登录");
         }
-        UserBean userBean =new UserBean();
-        userBean.setUserLevel(1);//默认是1，普通用户
+        userBean = new UserBean();//默认是1，普通用户
         userBean.setPhone(phone);
         userBean.setPassword(password);
-        return ResultUtil.success(userRepository.save(userBean));
+        userBean.setUserLevel(1);//默认是1，普通用户
+        if(userService.save(userBean)){
+            return ResultUtil.success(userBean);
+        }
+        return ResultUtil.error("注册失败");
     }
 
     /**
@@ -63,12 +64,12 @@ public class UserController {
         if(TextUtils.isEmpty(phone)||TextUtils.isEmpty(password)){
             return ResultUtil.error(ResultUtil.ERROR_CODE,"手机号和密码不能为空");
         }
-        UserBean userBeans = userRepository.findUserBeanByPhone(phone);
-        if(null !=userBeans){
+        UserBean userBean = userService.getOne(Wrappers.query(new UserBean()).eq(UserBean::getPhone,phone));
+        if(null !=userBean){
             //已经注册了，请直接登录
-            if(userBeans.getPassword().equals(password)){
+            if(userBean.getPassword().equals(password)){
                 //通过密码验证
-                return ResultUtil.success(userBeans);
+                return ResultUtil.success(userBean);
             }
             return ResultUtil.error(ResultUtil.ERROR_CODE,"密码错误");
         }
@@ -91,10 +92,10 @@ public class UserController {
         if(bindingResult.hasErrors()){
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
-        UserBean userBeanById = userRepository.findUserBeanById(userBean.getId());
+        UserBean userBeanById = userService.getById(userBean.getId());
         if(null!=userBeanById){
             EntityCopyUtil.beanCopyWithIngore(userBean,userBeanById,"password");
-            return ResultUtil.success(userRepository.save(userBeanById));
+            return ResultUtil.success(userService.save(userBeanById));
         }
         return ResultUtil.error("未找到该用户");
     }
