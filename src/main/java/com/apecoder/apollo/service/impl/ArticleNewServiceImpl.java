@@ -20,32 +20,32 @@ public class ArticleNewServiceImpl extends ServiceImpl<ArticleNewMapper, Article
     @Autowired
     ArticleNewMapper articleMapper;
 
-    public  List<ArticleEntity>  selectListByCategory(Integer category,Integer page,Integer pageSize) {
-        IPage<ArticleEntity> iPage = articleMapper.selectPage(new Page<ArticleEntity>(page,pageSize),
-                Wrappers.query(new ArticleEntity()).eq(ArticleEntity::getCategory,category)
+    public List<ArticleEntity> selectListByCategory(Integer category, Page page) {
+        IPage<ArticleEntity> iPage = articleMapper.selectPage(page,
+                Wrappers.query(new ArticleEntity()).eq(ArticleEntity::getCategory, category).orderByDesc(ArticleEntity::getUpdateDate)
         );
-        return  iPage.getRecords();
+        return iPage.getRecords();
     }
 
-    public  List<ArticleEntity>  selectListById(Integer category,Integer page,Integer pageSize) {
+    public List<ArticleEntity> selectListById(Integer category, Integer page, Integer pageSize) {
         QueryWrapper<ArticleEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id",category);
-        IPage<ArticleEntity> iPage = articleMapper.selectPage(new Page<ArticleEntity>(page,pageSize),queryWrapper);
-        return  iPage.getRecords();
+        queryWrapper.eq("id", category);
+        IPage<ArticleEntity> iPage = articleMapper.selectPage(new Page<ArticleEntity>(page, pageSize), queryWrapper);
+        return iPage.getRecords();
     }
 
-    public int insert(ArticleEntity articleBean){
+    public int insert(ArticleEntity articleBean) {
         return articleMapper.insert(articleBean);
     }
 
-    public List<ArticleItemVo> getListArticles(Page page){
+    public List<ArticleItemVo> getListArticles(Page page) {
         return articleMapper.selectArticlesByBandUser(page);
     }
 
-    public  List<ArticleEntity>  selectArticles(Page page) {
+    public List<ArticleEntity> selectArticles(Page page) {
         IPage<ArticleEntity> iPage = articleMapper.selectPage(page,
                 Wrappers.query(new ArticleEntity())
         );
-        return  iPage.getRecords();
+        return iPage.getRecords();
     }
 }

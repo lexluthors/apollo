@@ -57,13 +57,13 @@ public class ArticleController {
         if (bindingResult.hasErrors()) {
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
-        ArticleEntity articleBean1 = articleNewService.getOne(Wrappers.query(new ArticleEntity()).eq(ArticleEntity::getLink,articleBean.getLink()));
+        ArticleEntity articleBean1 = articleNewService.getOne(Wrappers.query(new ArticleEntity()).eq(ArticleEntity::getLink, articleBean.getLink()));
         if (null != articleBean1) {
             return ResultUtil.error("该文章已经存在了");
         }
         //审核中0
         articleBean.setAuditSatus(0);
-        if(articleNewService.save(articleBean)){
+        if (articleNewService.save(articleBean)) {
             return ResultUtil.success(articleBean);
         }
         return ResultUtil.error("该文章已经存在了");
@@ -83,7 +83,7 @@ public class ArticleController {
     //更新一篇文章
     @ApiOperation(value = "新增文章", notes = "新增文章接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "id", value = "文章id", required = true, dataType = "Long"),
             @ApiImplicitParam(name = "title", value = "文章标题", required = true, dataType = "string"),
             @ApiImplicitParam(name = "des", value = "文章描述", required = false, dataType = "string"),
             @ApiImplicitParam(name = "tag", value = "文章标签", required = false, dataType = "string"),
@@ -102,7 +102,7 @@ public class ArticleController {
         if (null != articleBean1) {
             if (articleBean.getContributorId().equals(articleBean1.getContributorId())) {
                 EntityCopyUtil.beanCopyWithIngore(articleBean, articleBean1, "contributorId");
-                if(articleNewService.save(articleBean1)){
+                if (articleNewService.save(articleBean1)) {
                     return ResultUtil.success(articleBean1);
                 }
             }
@@ -123,14 +123,15 @@ public class ArticleController {
     @ApiOperation(value = "根据category获取文章列表")
     @PostMapping(value = "/articlesByCategory")
     public Result<List<ArticleEntity>> articleByCategory(@RequestParam("category") Integer category, @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
-        List<ArticleEntity> articleBeans = articleNewService.selectListByCategory(category, page, pageSize);
+        Page<ArticleEntity> articleEntityIPage = new Page<>(page, pageSize);
+        List<ArticleEntity> articleBeans = articleNewService.selectListByCategory(category, articleEntityIPage);
         return ResultUtil.success(articleBeans);
     }
 
     @ApiOperation(value = " 获取文章列表，带有用户信息的列表")
     @PostMapping(value = "/articles")
     public Result<List<ArticleItemVo>> getListArticles(@RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
-        List<ArticleItemVo> articleBeans = articleNewService.getListArticles(new Page(page,pageSize));
+        List<ArticleItemVo> articleBeans = articleNewService.getListArticles(new Page(page, pageSize));
         return ResultUtil.success(articleBeans);
     }
 
@@ -147,10 +148,10 @@ public class ArticleController {
     @ApiOperation(value = " 获取文章列表，带有用户信息的列表")
     @PostMapping(value = "/batchSaveArticle")
     public Result<Map> batchSaveArticles(@Valid List<ArticleEntity> articleBeans, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
         }
-        if(articleNewService.saveBatch(articleBeans)){
+        if (articleNewService.saveBatch(articleBeans)) {
             return ResultUtil.success(new HashMap<>());
         }
         return ResultUtil.error("批量新增文章失败");

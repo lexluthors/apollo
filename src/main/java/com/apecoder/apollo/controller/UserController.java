@@ -13,7 +13,6 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,20 +79,23 @@ public class UserController {
             @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "int"),
             @ApiImplicitParam(name = "age", value = "用户年龄", required = false, dataType = "int"),
             @ApiImplicitParam(name = "des", value = "个人描述，签名", required = false, dataType = "string"),
-            @ApiImplicitParam(name = "nick_name", value = "昵称", required = false, dataType = "string"),
+            @ApiImplicitParam(name = "nickName", value = "昵称", required = false, dataType = "string"),
             @ApiImplicitParam(name = "name", value = "姓名", required = false, dataType = "string"),
             @ApiImplicitParam(name = "hobby", value = "爱好", required = false, dataType = "string"),
             @ApiImplicitParam(name = "gender", value = "性别", required = false, dataType = "string")
     })
     @PostMapping(value = "/userUpdate")
-    public Result<UserBean>  userBeanUpdate(@Valid UserBean userBean, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
-        }
+    public Result<UserBean>  userBeanUpdate(@Valid UserBean userBean){
+        logger.error(userBean.getNickName()+userBean.getId());
         UserBean userBeanById = userService.getById(userBean.getId());
+        logger.error(userBeanById.getNickName()+userBeanById.getId());
         if(null!=userBeanById){
-            EntityCopyUtil.beanCopyWithIngore(userBean,userBeanById,"password");
-            return ResultUtil.success(userService.save(userBeanById));
+            EntityCopyUtil.beanCopyWithIngore(userBean,userBeanById,"phone","password");
+            logger.error(userBeanById.getNickName()+userBeanById.getId());
+            if(userService.updateById(userBeanById)){
+                return ResultUtil.success("更新成功");
+            }
+            return ResultUtil.error("更新失败");
         }
         return ResultUtil.error("未找到该用户");
     }

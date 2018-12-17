@@ -3,9 +3,6 @@ package com.apecoder.apollo.utils;
 
 import com.apecoder.apollo.domain.EmptyData;
 import com.apecoder.apollo.domain.Result;
-import com.apecoder.apollo.domain.ResultData;
-
-import java.util.ArrayList;
 
 public class ResultUtil {
     public static int ERROR_CODE = 0;
@@ -38,6 +35,13 @@ public class ResultUtil {
     public static Result error(Integer code, String msg) {
         Result result = new Result();
         result.setCode(code);
+        result.setMsg(msg);
+        result.setData(new EmptyData());
+        return result;
+    }
+    public static Result success(String msg) {
+        Result result = new Result();
+        result.setCode(SUCCESS_CODE);
         result.setMsg(msg);
         result.setData(new EmptyData());
         return result;

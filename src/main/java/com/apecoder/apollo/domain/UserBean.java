@@ -3,8 +3,6 @@ package com.apecoder.apollo.domain;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
-
 @Data
 public class UserBean extends BaseEntity {
 //    @TableId(type = IdType.AUTO)
@@ -24,9 +22,9 @@ public class UserBean extends BaseEntity {
 
 
     @JSONField(serialize = false)
-    @NotNull(message = "密码必传")
+//    @NotNull(message = "密码必传")
     private String password;
-    @NotNull(message = "手机号必传")
+//    @NotNull(message = "手机号必传")
     private String phone;
 
     private String gender;
