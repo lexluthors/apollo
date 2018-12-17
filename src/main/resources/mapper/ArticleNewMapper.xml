@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apecoder.apollo.mapper.ArticleNewMapper">
+	<sql id="ArticleItemVo_List">
+        u.id uid,u.date udate
+    </sql>
+	<select id="selectArticlesByBandUser" resultMap="articleMap">
+--       select * from article_entity as b left join user_bean as u on b.contributor_id=u.id
+		SELECT *, <include refid="ArticleItemVo_List"/>
+		from article_entity a LEFT JOIN user_bean u on a.contributor_id = u.id order by a.date desc
+    </select>
+
+	<resultMap type="com.apecoder.apollo.domain.ArticleItemVo" id="articleMap" >
+		<id column="id" property="id"/>
+		<result column="contributor_id" property="contributorId"/>
+		<result column="id" property="id"/>
+		<result column="des" property="des"/>
+		<result column="date" property="date"/>
+		<result column="audit_satus" property="auditSatus"/>
+		<result column="sencond_category" property="sencondCategory"/>
+		<result column="update_date" property="updateDate"/>
+		<result column="category" property="category"/>
+		<result column="cover_image" property="coverImage"/>
+		<result column="tag" property="tag"/>
+		<result column="title" property="title"/>
+		<result column="link" property="link"/>
+		<association property="user"   javaType="com.apecoder.apollo.domain.UserBean">
+			<id column="id" property="id"/>
+			<result column="uid" property="id"/>
+			<result column="name" property="name"/>
+			<result column="avatar" property="avatar"/>
+			<result column="unick" property="nickName"/>
+			<result column="user_level" property="userLevel"/>
+			<result column="udate" property="date"/>
+		</association>
+	</resultMap>
+
+
+	<!--a.id,a.date,a.contributor_id,-->
+	<!--<resultMap type="com.apecoder.apollo.domain.BaseMapBean" id="articleMap2" >
+		<result column="total" property="total"/>
+		<result column="current" property="current"/>
+		<collection property="data" select="com.apecoder.apollo.mapper.ArticleNewMapper.selectArticlesByBandUser2"  javaType="com.apecoder.apollo.domain.ArticleItemVo">
+			<result column="id" property="d"/>
+			<result column="name" property="name"/>
+			<result column="avatar" property="avatar"/>
+			<result column="nick_name" property="nickName"/>
+			<result column="user_level" property="userLevel"/>
+		</collection>
+	</resultMap>
+-->
+
+</mapper>

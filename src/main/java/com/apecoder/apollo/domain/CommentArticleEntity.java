@@ -4,17 +4,17 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
+
 @Data
-public class ArticleEntity extends BaseEntity {
-    //文章id
-//    @TableId(value="id",type= IdType.AUTO)
-//    private Integer id;
+public class CommentArticleEntity extends BaseEntity {
 
-    @NotNull(message = "文章发布者id必填")
-    private Long contributorId;
+    @NotNull(message = "文章id必填")
+    private Long articleId;
 
-    //描述
-    private String des;
+    /**
+     * 评论内容
+     */
+    private String content;
 
     //封面图
     private String coverImage;
@@ -35,6 +35,4 @@ public class ArticleEntity extends BaseEntity {
     //审核状态(审核中0、通过1、未通过2)
     private Integer auditSatus;
 
-//    @TableField(exist = false)
-//    private UserBean userBean;
 }

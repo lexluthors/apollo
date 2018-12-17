@@ -2,13 +2,11 @@ package com.apecoder.apollo.controller;
 
 import com.apecoder.apollo.domain.Result;
 import com.apecoder.apollo.domain.UserBean;
-import com.apecoder.apollo.repository.UserRepository;
 import com.apecoder.apollo.service.impl.UserServiceImpl;
 import com.apecoder.apollo.utils.EntityCopyUtil;
 import com.apecoder.apollo.utils.ResultUtil;
 import com.apecoder.apollo.utils.TextUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +31,7 @@ public class UserController {
 
 
     //新增一个用户
-    @PostMapping(value = "/user/register")
+    @PostMapping(value = "/userRegister")
     public Result<UserBean> userBeanAdd(@RequestParam("phone")  String phone, @RequestParam("password") String password){
         if(TextUtils.isEmpty(phone)||TextUtils.isEmpty(password)){
             return ResultUtil.error("手机号和密码不能为空");
@@ -59,7 +57,7 @@ public class UserController {
      * @param password
      * @return
      */
-    @PostMapping(value = "/user/login")
+    @PostMapping(value = "/userLogin")
     public Result<UserBean> userBeanLogin(@RequestParam("phone")  String phone, @RequestParam("password") String password){
         if(TextUtils.isEmpty(phone)||TextUtils.isEmpty(password)){
             return ResultUtil.error(ResultUtil.ERROR_CODE,"手机号和密码不能为空");
@@ -87,7 +85,7 @@ public class UserController {
             @ApiImplicitParam(name = "hobby", value = "爱好", required = false, dataType = "string"),
             @ApiImplicitParam(name = "gender", value = "性别", required = false, dataType = "string")
     })
-    @PostMapping(value = "/user/update")
+    @PostMapping(value = "/userUpdate")
     public Result<UserBean>  userBeanUpdate(@Valid UserBean userBean, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return ResultUtil.error(bindingResult.getFieldError().getDefaultMessage());
@@ -101,7 +99,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据nickname获取用户列表",notes = "获取用户列表")
-    @PostMapping(value = "/get_users_nickname")
+    @PostMapping(value = "/getUsersByNickname")
     public Result<List<UserBean>> getUsersByNickName(@RequestParam("nick_name")  String nick_name){
         if(TextUtils.isEmpty(nick_name)){
             return ResultUtil.error(ResultUtil.ERROR_CODE,"昵称不能为空");
@@ -111,7 +109,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "根据user_level获取用户列表",notes = "获取用户列表")
-    @PostMapping(value = "/get_users_level")
+    @PostMapping(value = "/getUsersByLevel")
     public Result<List<UserBean>> getUsersByUserLevel(@RequestParam("user_level")  Integer user_level){
         List<UserBean> userBeans= userService.selectListByUserLevel(user_level);
         return ResultUtil.success(userBeans);

@@ -10,13 +10,25 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 100
+        max-idle: 10
+        max-wait: -1ms
+    database: 0 #默认是索引为0的数据库
+    timeout: 1000ms
+
 server:
   port: 8081
 
 mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
   global-config:
     db-config:
-      id-type: id_worker
+      id-type: auto
       column-like: true
       logic-delete-value: 0
       logic-not-delete-value: 1
@@ -24,7 +36,5 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
-
-
 
 
