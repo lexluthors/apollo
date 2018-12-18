@@ -132,6 +132,5 @@
     <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.29.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.29.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.29.Final" level="project" />
-    <orderEntry type="library" name="Maven: org.shenjia:MyBatisX:unknown" level="project" />
   </component>
 </module>

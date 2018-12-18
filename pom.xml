@@ -99,10 +99,10 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>org.shenjia</groupId>
             <artifactId>MyBatisX</artifactId>
-        </dependency>
+        </dependency>-->
     </dependencies>
     <build>
         <finalName>apollo</finalName>
