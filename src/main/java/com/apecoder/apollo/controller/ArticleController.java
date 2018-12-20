@@ -223,15 +223,16 @@ public class ArticleController {
     public Result<List<ArticleEntity>> articleByCategory(@RequestParam("category") Integer category, @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
         Page<ArticleEntity> articleEntityIPage = new Page<>(page, pageSize);
         List<ArticleEntity> articleBeans = articleNewService.selectListByCategory(category, articleEntityIPage);
+        if(articleBeans.size()==0){
+            return ResultUtil.success(articleBeans);
+        }
         List<Long> ids = articleBeans.stream().map(ArticleEntity::getContributorId).collect(Collectors.toList());
         List<UserBean> users = (List<UserBean>) userService.listByIds(ids);
-
         Map<Long, UserBean> userBeanMap = users.stream().collect(Collectors.toMap(UserBean::getId, Function.identity()));
         for (ArticleEntity articleBean : articleBeans) {
             articleBean.setUser(userBeanMap.get(articleBean.getContributorId()));
         }
         return ResultUtil.success(articleBeans);
-
     }
 
     @ApiOperation(value = " 获取文章列表，带有用户信息的列表，按更新时间倒叙排序")
