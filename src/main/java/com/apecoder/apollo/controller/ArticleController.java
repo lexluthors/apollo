@@ -218,15 +218,6 @@ public class ArticleController {
         return ResultUtil.error("未找到该文章");
     }
 
-//    @PostMapping(value = "/get_article_bylink")
-//    public Result<ArticleBean> articleByLink(@RequestParam("link") String article_link) {
-//        ArticleBean articleBean = articleService.findArticleBeanByLink(article_link);
-//        if (null != articleBean) {
-//            return ResultUtil.success(articleBean);
-//        }
-//        return ResultUtil.error("未找到该文章");
-//    }
-
     @ApiOperation(value = "根据category获取文章列表")
     @PostMapping(value = "/articlesByCategory")
     public Result<List<ArticleEntity>> articleByCategory(@RequestParam("category") Integer category, @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
