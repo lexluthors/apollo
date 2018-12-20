@@ -124,9 +124,9 @@ public class ArticleController {
             @ApiImplicitParam(name = "typeNum", value = "传1代表加1次，-1代表 取消，减1次。", required = true, dataType = "int")
     })
     @PostMapping(value = "/updateArticleNumber")
-    public Result updateArticleNumber(@RequestParam(value = "articleId") Long articleId,@RequestParam(value = "userId") Long userId, @RequestParam(value = "type") Integer type, @RequestParam(value = "typeNum") Integer typeNum) {
+    public Result updateArticleNumber(@RequestParam(value = "articleId") Long articleId, @RequestParam(value = "userId") Long userId, @RequestParam(value = "type") Integer type, @RequestParam(value = "typeNum") Integer typeNum) {
         ArticleEntity articleBean1 = articleNewService.getById(articleId);
-        CollectEntity collectEntity = collectService.getOne(Wrappers.query(new CollectEntity()).eq(CollectEntity::getUserId,userId).eq(CollectEntity::getArticleId,articleId));
+        CollectEntity collectEntity = collectService.getOne(Wrappers.query(new CollectEntity()).eq(CollectEntity::getUserId, userId).eq(CollectEntity::getArticleId, articleId));
         CollectEntity collectNewEntity = new CollectEntity();
         collectNewEntity.setArticleId(articleId);
         collectNewEntity.setUserId(userId);
@@ -136,25 +136,25 @@ public class ArticleController {
                     //收藏
                     if (typeNum == 1) {
                         //加一次收藏
-                        if(collectEntity!=null){
-                            if(collectEntity.getCollectStatus()==1){
+                        if (collectEntity != null) {
+                            if (collectEntity.getCollectStatus() == 1) {
                                 //已经收藏了
                                 return ResultUtil.error("该文章已经收藏过了");
                             }
                             //未收藏，添加到收藏列表中
                             collectEntity.setCollectStatus(1);
                             collectEntity.updateById();
-                        }else{
+                        } else {
                             //未收藏过，第一次加入收藏列表
                             collectNewEntity.setCollectStatus(1);
                             collectService.save(collectNewEntity);
                         }
                         articleBean1.setCollect(articleBean1.getCollect() + 1);
-                    }else{
+                    } else {
                         //取消收藏
-                        if(collectEntity!=null){
+                        if (collectEntity != null) {
                             //说明已经收藏了，收藏字段置位0即可
-                            if(collectEntity.getCollectStatus()==1){
+                            if (collectEntity.getCollectStatus() == 1) {
                                 collectEntity.setCollectStatus(0);
                                 collectEntity.updateById();
                                 break;
@@ -167,25 +167,25 @@ public class ArticleController {
                     //点赞
                     if (typeNum == 1) {
                         //加一次点赞
-                        if(collectEntity!=null){
-                            if(collectEntity.getPraiseStatus()==1){
+                        if (collectEntity != null) {
+                            if (collectEntity.getPraiseStatus() == 1) {
                                 //已经收藏了
                                 return ResultUtil.error("该文章已经收藏过了");
                             }
                             //未收藏，添加到收藏列表中
                             collectEntity.setPraiseStatus(1);
                             collectEntity.updateById();
-                        }else{
+                        } else {
                             //未点赞过，第一次点赞
                             collectNewEntity.setPraiseStatus(1);
                             collectService.save(collectNewEntity);
                         }
                         articleBean1.setPraise(articleBean1.getPraise() + 1);
-                    }else{
+                    } else {
                         //取消点赞
-                        if(collectEntity!=null){
+                        if (collectEntity != null) {
                             //说明已经点赞了，点赞字段置位0即可
-                            if(collectEntity.getPraiseStatus()==1){
+                            if (collectEntity.getPraiseStatus() == 1) {
                                 collectEntity.setCollectStatus(0);
                                 collectEntity.updateById();
                                 break;
@@ -223,7 +223,23 @@ public class ArticleController {
     public Result<List<ArticleEntity>> articleByCategory(@RequestParam("category") Integer category, @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
         Page<ArticleEntity> articleEntityIPage = new Page<>(page, pageSize);
         List<ArticleEntity> articleBeans = articleNewService.selectListByCategory(category, articleEntityIPage);
-        if(articleBeans.size()==0){
+        if (articleBeans.size() == 0) {
+            return ResultUtil.success(articleBeans);
+        }
+        List<Long> ids = articleBeans.stream().map(ArticleEntity::getContributorId).collect(Collectors.toList());
+        List<UserBean> users = (List<UserBean>) userService.listByIds(ids);
+        Map<Long, UserBean> userBeanMap = users.stream().collect(Collectors.toMap(UserBean::getId, Function.identity()));
+        for (ArticleEntity articleBean : articleBeans) {
+            articleBean.setUser(userBeanMap.get(articleBean.getContributorId()));
+        }
+        return ResultUtil.success(articleBeans);
+    }
+
+    @ApiOperation(value = "获取全部文章列表带有用户信息的列表，按更新时间倒叙排序")
+    @PostMapping(value = "/getAllArticles")
+    public Result<List<ArticleEntity>> getAllArticles(@RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
+        List<ArticleEntity> articleBeans = articleNewService.getAllArticleList(page, pageSize);
+        if (articleBeans.size() == 0) {
             return ResultUtil.success(articleBeans);
         }
         List<Long> ids = articleBeans.stream().map(ArticleEntity::getContributorId).collect(Collectors.toList());
@@ -237,8 +253,8 @@ public class ArticleController {
 
     @ApiOperation(value = " 获取文章列表，带有用户信息的列表，按更新时间倒叙排序")
     @PostMapping(value = "/articles")
-    public Result<List<ArticleItemVo>> getListArticles(@RequestParam("category") Integer category,@RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
-        List<ArticleItemVo> articleBeans = articleNewService.getListArticles(category,new Page(page, pageSize));
+    public Result<List<ArticleItemVo>> getListArticles(@RequestParam("category") Integer category, @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
+        List<ArticleItemVo> articleBeans = articleNewService.getListArticles(category, new Page(page, pageSize));
         return ResultUtil.success(articleBeans);
     }
 
@@ -255,7 +271,7 @@ public class ArticleController {
     @ApiOperation(value = " 获取文章列表，带有用户信息的列表")
     @PostMapping(value = "/batchSaveArticle")
     public Result<Map> batchSaveArticles(@RequestParam(value = "jsonArray") String jsonArray) {
-        List<ArticleEntity> articleEntityList = JSON.parseArray(jsonArray,ArticleEntity.class);
+        List<ArticleEntity> articleEntityList = JSON.parseArray(jsonArray, ArticleEntity.class);
         if (articleNewService.saveBatch(articleEntityList)) {
             return ResultUtil.success("批量新增文章成功");
         }
