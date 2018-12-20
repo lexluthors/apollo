@@ -4,10 +4,12 @@ import com.apecoder.apollo.domain.ArticleEntity;
 import com.apecoder.apollo.domain.CommentArticleEntity;
 import com.apecoder.apollo.domain.Result;
 import com.apecoder.apollo.domain.UserBean;
-import com.apecoder.apollo.service.UserService;
 import com.apecoder.apollo.service.impl.ArticleNewServiceImpl;
 import com.apecoder.apollo.service.impl.CommentServiceImpl;
+import com.apecoder.apollo.service.impl.UserServiceImpl;
 import com.apecoder.apollo.utils.ResultUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -17,9 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(value = "CommentController", description = "文章评论相关接口")
 @RestController
@@ -30,7 +34,7 @@ public class CommentController {
     @Autowired
     private ArticleNewServiceImpl articleService;
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     private final static Logger logger = LoggerFactory.getLogger(CommentController.class);
 
@@ -62,12 +66,25 @@ public class CommentController {
         if (null == articleBean) {
             return ResultUtil.error("该文章不存在");
         }
+        if(StringUtils.isNotEmpty(String.valueOf(commentArticleEntity.getToId()))){
+            //如果被评论者id不为空，就查询被评论者信息
+            UserBean toUser = userService.getById(commentArticleEntity.getToId());
+            commentArticleEntity.setToAvatar(toUser.getAvatar());
+            commentArticleEntity.setToNickName(toUser.getNickName());
+        }
         commentArticleEntity.setFromAvatar(userBean.getAvatar());
         commentArticleEntity.setFromNickName(userBean.getNickName());
         if(commentService.save(commentArticleEntity)){
             return ResultUtil.success(commentArticleEntity);
         }
         return ResultUtil.error("评论失败");
+    }
+
+    @ApiOperation(value = "获取文章评论列表")
+    @PostMapping(value = "/getCommentList")
+    public Result<CommentArticleEntity> getCommentList(@RequestParam("articleId") Integer articleId, @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
+        List<CommentArticleEntity> commentList = commentService.getCommentsByArticleId(articleId,new Page(page,pageSize));
+        return ResultUtil.success(commentList);
     }
 
 }

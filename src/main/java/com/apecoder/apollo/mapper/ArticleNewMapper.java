@@ -4,6 +4,7 @@ import com.apecoder.apollo.domain.ArticleEntity;
 import com.apecoder.apollo.domain.ArticleItemVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,6 +23,6 @@ public interface ArticleNewMapper extends BaseMapper<ArticleEntity> {
 //    public List<Map> selectArticlesByBandUser(Page page);
 
 
-    public List<ArticleItemVo> selectArticlesByBandUser(Page page);
+    public List<ArticleItemVo> selectArticlesByBandUser( @Param("category") Integer category, Page page);
 
 }

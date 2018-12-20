@@ -1,5 +1,6 @@
 package com.apecoder.apollo.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -26,7 +27,7 @@ public class ArticleEntity extends BaseEntity {
 
     private String tag;//文章标签
     /**
-     * 文章分类（Android、iOS、Java等）0安卓，1 ios,2 java,3 PHP
+     * 文章分类（Android、iOS、Java等）0安卓，1 ios, 2 前端，3 java, 4 PHP, 5 python, 6 大数据, 7 人工智能
      */
     @NotNull(message="分类不能为空！")
     private Integer category;
@@ -35,6 +36,15 @@ public class ArticleEntity extends BaseEntity {
     //审核状态(审核中0、通过1、未通过2)
     private Integer auditSatus;
 
-//    @TableField(exist = false)
-//    private UserBean userBean;
+    @TableField(exist = false)
+    private UserBean user;
+
+    //收藏量
+    private Integer collect ;
+    //点赞量，（之前用的like字段，不能使用mysql关键字当做实体类字段，会导致sql语法错误）
+    private Integer praise;
+    //阅读量
+    private Integer pageViews;
+    //评论数
+    private Integer comments;
 }

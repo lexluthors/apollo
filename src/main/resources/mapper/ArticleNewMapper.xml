@@ -4,10 +4,10 @@
 	<sql id="ArticleItemVo_List">
         u.id uid,u.date udate
     </sql>
-	<select id="selectArticlesByBandUser" resultMap="articleMap">
+	<select id="selectArticlesByBandUser" parameterType="integer" resultMap="articleMap">
 --       select * from article_entity as b left join user_bean as u on b.contributor_id=u.id
 		SELECT *, <include refid="ArticleItemVo_List"/>
-		from article_entity a LEFT JOIN user_bean u on a.contributor_id = u.id order by a.date desc
+		from article_entity a LEFT JOIN user_bean u on a.contributor_id = u.id where a.category=${category} order by a.date desc
     </select>
 
 	<resultMap type="com.apecoder.apollo.domain.ArticleItemVo" id="articleMap" >

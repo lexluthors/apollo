@@ -27,9 +27,15 @@ public class ArticleNewServiceImpl extends ServiceImpl<ArticleNewMapper, Article
         return iPage.getRecords();
     }
 
-    public List<ArticleEntity> selectListById(Integer category, Integer page, Integer pageSize) {
+    /**
+     * 获取所有的文章列表，按时间倒叙排序
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    public List<ArticleEntity> getAllArticleList(Integer page, Integer pageSize) {
         QueryWrapper<ArticleEntity> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("id", category);
+        queryWrapper.orderByDesc("update_date");
         IPage<ArticleEntity> iPage = articleMapper.selectPage(new Page<ArticleEntity>(page, pageSize), queryWrapper);
         return iPage.getRecords();
     }
@@ -38,8 +44,8 @@ public class ArticleNewServiceImpl extends ServiceImpl<ArticleNewMapper, Article
         return articleMapper.insert(articleBean);
     }
 
-    public List<ArticleItemVo> getListArticles(Page page) {
-        return articleMapper.selectArticlesByBandUser(page);
+    public List<ArticleItemVo> getListArticles(Integer category,Page page) {
+        return articleMapper.selectArticlesByBandUser(category,page);
     }
 
     public List<ArticleEntity> selectArticles(Page page) {
@@ -47,5 +53,11 @@ public class ArticleNewServiceImpl extends ServiceImpl<ArticleNewMapper, Article
                 Wrappers.query(new ArticleEntity())
         );
         return iPage.getRecords();
+    }
+
+    public ArticleEntity getOneByLink(String link){
+        QueryWrapper<ArticleEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("link",link);
+        return articleMapper.selectOne(queryWrapper);
     }
 }
