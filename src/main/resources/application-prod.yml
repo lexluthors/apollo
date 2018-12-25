@@ -1,25 +1,34 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://118.190.202.223:3306/dbgirl2?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong
+    url: jdbc:mysql://127.0.01:3306/dbgirl2?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Hongkong
     username: root
-    password: 841114Waff!_
-
+    password: 123456
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
 
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 100
+        max-idle: 10
+        max-wait: -1ms
+    database: 0 #默认是索引为0的数据库
+    timeout: 1000ms
+
 server:
-  port: 80
+  port: 8081
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   global-config:
     db-config:
       id-type: auto
-      field-strategy: not_empty
       column-like: true
       logic-delete-value: 0
       logic-not-delete-value: 1
@@ -27,3 +36,5 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
+
+
