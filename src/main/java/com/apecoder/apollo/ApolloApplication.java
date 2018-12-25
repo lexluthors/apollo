@@ -16,6 +16,7 @@ public class ApolloApplication {
 
     @Bean
     public PerformanceInterceptor performanceInterceptor() {
+        //提交测试
         return new PerformanceInterceptor();
     }
 
